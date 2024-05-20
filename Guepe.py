@@ -14,15 +14,18 @@ class Guepe:
 
 
     def actualiserEtat(self):
+        #print('Guepe :: actualiserEtat : debut')
         self.delai -= 1
         if self.delai <= 0:
-            if self.position >= 0 and self.position != 1:
+            if self.position < 2:
                 self.presentation.afficherGuepe(self.position)
-                #print("Guepe :: position = "+ str(self.position))
+                print("Guepe :: position = "+ str(self.position))
                 self.position += 1
                 self.delai = 10
-            elif self.position == 2:
-                self.presentation.afficherAmi(typeAmi, Constantes.TOUCHE)
+            #elif self.position == 2:
+                #self.presentation.afficherAmi(typeAmi, Constantes.TOUCHE)
+        else:
+            self.presentation.afficherGuepe(self.position)
 
 
 
