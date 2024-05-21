@@ -20,6 +20,8 @@ class Jeu:
         self.listeEnnemis = []
         self.constanteRetour = 0
         self.guepe = None
+        self.echec = 0
+        self.etatChat = Constantes.NORMAL
 
         #...                                 # attributs pour les ennemis, le score, ...
 
@@ -67,18 +69,33 @@ class Jeu:
     def actualiserEcran(self):
         self.presentation.effacerImageInterne()
         #Afficher Les amis via une boucle qui voyage dans la liste et qui appelle afficheAmi à chaque tour de boucle
-        for ami in self.listeAmis:
-            typeAmi = ami
-            self.presentation.afficherAmi(typeAmi, Constantes.NORMAL)
+
 
         if(self.guepe != None):
             self.guepe.actualiserEtat()
+            if self.guepe.etat == Constantes.TERMINE:
+                self.echec += 1
+                self.etatChat = Constantes.TOUCHE
+
+
+        for ami in self.listeAmis:
+            if ami == Constantes.CHAT:
+                self.presentation.afficherAmi(Constantes.CHAT, self.etatChat)
+                if self.etatChat == Constantes.TOUCHE:
+                    self.presentation.actualiserFenetreGraphique()
+                    time.sleep(1.5)
+                    self.listeEnnemis.remove(self.guepe)
+                    self.guepe = None
+                    self.etatChat = Constantes.NORMAL
+            else:
+                self.presentation.afficherAmi(ami, Constantes.NORMAL)
+
+        if self.echec == 3:
+            self.presentation.attendreFermetureFenetre()
 
         self.presentation.afficherStanley(self.stanley.etat, self.stanley.position,
                                           self.stanley.action)
 
-        #for guepePop in self.listeEnnemis:
-        #    guepePop.actualiserEtat()
 
         self.presentation.actualiserFenetreGraphique()
 

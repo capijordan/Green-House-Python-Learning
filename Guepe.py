@@ -10,7 +10,7 @@ class Guepe:
         self.delai = 10
         self.position = 0
         self.presentation.afficherGuepe(0)
-        self.etatChat = Constantes.NORMAL
+        self.etat = Constantes.NORMAL
 
 
     def actualiserEtat(self):
@@ -22,10 +22,16 @@ class Guepe:
                 print("Guepe :: position = "+ str(self.position))
                 self.position += 1
                 self.delai = 10
-            #elif self.position == 2:
-                #self.presentation.afficherAmi(typeAmi, Constantes.TOUCHE)
+            else:
+                self.etat = Constantes.TERMINE
+
         else:
             self.presentation.afficherGuepe(self.position)
+
+
+
+
+
 
 
 
