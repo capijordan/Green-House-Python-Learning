@@ -15,7 +15,7 @@ class AraigneeG:
     def actualiserEtat(self):
         self.delai -= 1
         if self.delai <= 0:
-            if self.position < 4:
+            if self.position <= 4:
                 self.presentation.afficherAraigneeG(self.position)
                 print("AraignéeG :: position = " + str(self.position))
                 self.position += 1

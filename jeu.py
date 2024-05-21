@@ -17,7 +17,6 @@ class Jeu:
         self.stanley = Stanley()             # attribut pour Stanley
         self.listeAmis = [Constantes.FLEUR_HG, Constantes.FLEUR_HD, Constantes.FLEUR_BG, Constantes.FLEUR_BD, Constantes.CHAT]
         self.moobs = Ennemis()
-        self.listeGuepe = []
         self.listeChenilleG = []
         self.listeChenilleD = []
         self.listeAraigneeG = []
@@ -91,7 +90,6 @@ class Jeu:
         if self.stanley.etat == Constantes.BAS and self.stanley.position == 2 and self.stanley.action == Constantes.SPRAY:
             if self.guepe != None and self.guepe.etat != Constantes.TERMINE:
                 self.score += 1
-                self.listeGuepe.remove(self.guepe)
                 self.guepe = None
                 #Si stanley respecte les conditions, il peut tuer la guepe
 
@@ -124,15 +122,27 @@ class Jeu:
                 self.etatPlanteCD = Constantes.TOUCHE'''
             #Si la chenilleD mange la planteD
 
-            for GneeG in self.listeAraigneeG:
-                GneeG.actualiserEtat()
-                if (self.stanley.position == 0 and self.stanley.action == Constantes.SPRAY) and (GneeG.position >= 0 or GneeG.position <= 4):
-                    self.score += 1
-                    self.listeAraigneeG.remove(GneeG)
-                '''if GneeG.etat == Constantes.TERMINE:
-                    self.echec += 1
-                    self.etatPlanteBG = Constantes.TOUCHE'''
-                # Si l'arraignéeG mange la planteBG
+        for GneeG in self.listeAraigneeG:
+            GneeG.actualiserEtat()
+            if (self.stanley.position == 0 and self.stanley.action == Constantes.SPRAY):
+                self.score += 1
+                self.listeAraigneeG.remove(GneeG)
+            '''if GneeG.etat == Constantes.TERMINE:
+                self.echec += 1
+                self.etatPlanteAG = Constantes.TOUCHE
+            # Si l'arraignéeG mange la planteBG'''
+
+        for GneeD in self.listeAraigneeD:
+            GneeD.actualiserEtat()
+            if (self.stanley.position == 3 and self.stanley.action == Constantes.SPRAY):
+                self.score += 1
+                self.listeAraigneeD.remove(GneeD)
+            '''if GneeD.etat == Constantes.TERMINE:
+                self.echec += 1
+                self.etatPlanteAD = Constantes.TOUCHE
+            # Si l'arraignéeD mange la planteBD'''
+
+
 
         for ami in self.listeAmis:
             if ami == Constantes.CHAT:
@@ -140,7 +150,7 @@ class Jeu:
                 if self.etatChat == Constantes.TOUCHE:
                     self.presentation.actualiserFenetreGraphique()
                     time.sleep(1.5)
-                    '''appeler clearListes()'''
+                    self.clearListes()
                     self.guepe = None
                     self.etatChat = Constantes.NORMAL
                     #Si la guepe a touché le chat, il pique et le jeu continue
@@ -150,8 +160,7 @@ class Jeu:
                 if self.etatPlanteCG == Constantes.TOUCHE:
                     self.presentation.actualiserFenetreGraphique()
                     time.sleep(1.5)
-                    self.listeChenilleG.clear()
-                    '''appeler clearListes()'''
+                    self.clearListes()
                     self.etatPlanteCG = Constantes.NORMAL
                     #Si la chenilleG a touché la planteG, elle mange la plante et le jeu continue
 
@@ -160,8 +169,7 @@ class Jeu:
                 if self.etatPlanteCD == Constantes.TOUCHE:
                     self.presentation.actualiserFenetreGraphique()
                     time.sleep(1.5)
-                    self.listeChenilleD.clear()
-                    '''appeler clearListes()'''
+                    self.clearListes()
                     self.etatPlanteCD = Constantes.NORMAL
                     #Si la chenilleD a touché la planteD, elle mange la plante et le jeu continue
 
@@ -170,11 +178,18 @@ class Jeu:
                 if self.etatPlanteAG == Constantes.TOUCHE:
                     self.presentation.actualiserFenetreGraphique()
                     time.sleep(1.5)
-                    self.listeAraigneeG.clear()
-                    '''appeler clearListes()'''
+                    self.clearListes()
                     self.etatPlanteAG = Constantes.NORMAL
-                    #Si l'arraignéeG' touche la planteBG, elle mange la plante et le jeu continue
+                    #Si l'arraignéeG touche la planteBG, elle mange la plante et le jeu continue
 
+            elif ami == Constantes.FLEUR_BD:
+                self.presentation.afficherAmi(Constantes.FLEUR_BD, self.etatPlanteAD)
+                if self.etatPlanteAD == Constantes.TOUCHE:
+                    self.presentation.actualiserFenetreGraphique()
+                    time.sleep(1.5)
+                    self.clearListes()
+                    self.etatPlanteAD = Constantes.NORMAL
+                    #Si l'arraignéeD touche la planteBG, elle mange la plante et le jeu continue
             else:
                 self.presentation.afficherAmi(ami, Constantes.NORMAL)
 
@@ -199,7 +214,7 @@ class Jeu:
     def gererGuepe(self):
         if self.guepe == None:
             self.guepe = Guepe(self.presentation)
-            self.listeGuepe.append(self.guepe)
+
             print("Une guepe vient d'être générée")
         else:
             print("Il n'y a aucune guepe générée")
@@ -214,20 +229,18 @@ class Jeu:
         print("Jeu :: araigneeD crée")
 
     def gererChenilleG(self):
-        self.chenilleG = ChenilleG(self.presentation)
-        self.listeChenilleG.append(self.chenilleG)
+        self.listeChenilleG.append(ChenilleG(self.presentation))
         print("Jeu :: chenilleG crée")
 
     def gererChenilleD(self):
-        self.chenilleD = ChenilleD(self.presentation)
-        self.listeChenilleD.append(self.chenilleD)
+        self.listeChenilleD.append(ChenilleD(self.presentation))
         print("Jeu :: chenilleD crée")
 
 
 
     def clearListes(self):
-        self.guepe.clear()
         self.listeChenilleG.clear()
         self.listeChenilleD.clear()
         self.listeAraigneeG.clear()
         self.listeAraigneeD.clear()
+        self.guepe = None
