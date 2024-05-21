@@ -87,6 +87,14 @@ class Jeu:
                 self.etatChat = Constantes.TOUCHE'''
             #Si la guepe pique le chat
 
+
+        if self.stanley.etat == Constantes.BAS and self.stanley.position == 2 and self.stanley.action == Constantes.SPRAY:
+            if self.guepe != None and self.guepe.etat != Constantes.TERMINE:
+                self.score += 1
+                self.listeGuepe.remove(self.guepe)
+                self.guepe = None
+                #Si stanley respecte les conditions, il peut tuer la guepe
+
         for ChenG in self.listeChenilleG:
             ChenG.actualiserEtat()
             if (self.stanley.position == 1 and self.stanley.action == Constantes.SPRAY) and (ChenG.position == 3 or ChenG.position == 2):
@@ -99,6 +107,22 @@ class Jeu:
                 self.echec += 1
                 self.etatPlanteCG = Constantes.TOUCHE'''
             #Si la chenilleG mange la planteG
+
+        for ChenD in self.listeChenilleD:
+            ChenD.actualiserEtat()
+            if (self.stanley.position == 3 and self.stanley.action == Constantes.SPRAY) and (ChenD.position == 1 or ChenD.position == 2):
+                self.score += 1
+                self.listeChenilleD.remove(ChenD)
+            elif (self.stanley.position == 4 and self.stanley.action == Constantes.SPRAY) and (ChenD.position == 3 or ChenD.position == 4):
+                self.score += 1
+                self.listeChenilleD.remove(ChenD)
+            elif (self.stanley.position == 5 and self.stanley.action == Constantes.SPRAY) and (ChenD.position == 5 or ChenD.position == 6):
+                self.score += 1
+                self.listeChenilleD.remove(ChenD)
+            '''if ChenD.etat == Constantes.TERMINE:
+                self.echec += 1
+                self.etatPlanteCD = Constantes.TOUCHE'''
+            #Si la chenilleD mange la planteD
 
         for ami in self.listeAmis:
             if ami == Constantes.CHAT:
@@ -120,16 +144,23 @@ class Jeu:
                     '''appeler clearListes()'''
                     self.etatPlanteCG = Constantes.NORMAL
                     #Si la chenilleG a touché la planteG, elle mange la plante et le jeu continue
+
+            elif ami == Constantes.FLEUR_HD:
+                self.presentation.afficherAmi(Constantes.FLEUR_HD, self.etatPlanteCD)
+                if self.etatPlanteCD == Constantes.TOUCHE:
+                    self.presentation.actualiserFenetreGraphique()
+                    time.sleep(1.5)
+                    self.listeChenilleD.clear()
+                    '''appeler clearListes()'''
+                    self.etatPlanteCD = Constantes.NORMAL
+                    #Si la chenilleD a touché la planteD, elle mange la plante et le jeu continue
+
+
             else:
                 self.presentation.afficherAmi(ami, Constantes.NORMAL)
 
 
-        if self.stanley.etat == Constantes.BAS and self.stanley.position == 2 and self.stanley.action == Constantes.SPRAY:
-            if self.guepe != None and self.guepe.etat != Constantes.TERMINE:
-                self.score += 1
-                self.listeGuepe.remove(self.guepe)
-                self.guepe = None
-                #Si stanley respecte les conditions, il peut tuer la guepe
+
 
         self.presentation.afficherEchecs(self.echec)
         self.presentation.afficherScore(self.score)
