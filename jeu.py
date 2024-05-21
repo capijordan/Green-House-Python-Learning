@@ -24,8 +24,16 @@ class Jeu:
         self.listeAraigneeD = []
         self.constanteRetour = 0
         self.guepe = None
+        self.chenilleG = None
+        self.chenilleD = None
+        self.araigneeG = None
+        self.araigneeD = None
         self.echec = 0
         self.etatChat = Constantes.NORMAL
+        self.etatPlanteCG = Constantes.NORMAL
+        self.etatPlanteCD = Constantes.NORMAL
+        self.etatPlanteAG = Constantes.NORMAL
+        self.etatPlanteAD = Constantes.NORMAL
         self.score = 0
 
         #...                                 # attributs pour les ennemis, le score, ...
@@ -76,12 +84,17 @@ class Jeu:
         #Afficher Les amis via une boucle qui voyage dans la liste et qui appelle afficheAmi à chaque tour de boucle
 
 
-        if(self.guepe != None):
+        if self.guepe != None:
             self.guepe.actualiserEtat()
-            if self.guepe.etat == Constantes.TERMINE:
+            '''if self.guepe.etat == Constantes.TERMINE:
                 self.echec += 1
-                self.etatChat = Constantes.TOUCHE
+                self.etatChat = Constantes.TOUCHE'''
 
+        if self.chenilleG != None:
+            self.chenilleG.actualiserEtat()
+            if self.chenilleG.etat == Constantes.TERMINE:
+                self.echec += 1
+                self.etatPlanteCG = Constantes.TOUCHE
 
         for ami in self.listeAmis:
             if ami == Constantes.CHAT:
@@ -92,14 +105,27 @@ class Jeu:
                     self.listeGuepe.remove(self.guepe)
                     self.guepe = None
                     self.etatChat = Constantes.NORMAL
+                    #Si la guepe a touché le chat, il pique et le jeu continue
+
+            elif ami == Constantes.FLEUR_HG:
+                self.presentation.afficherAmi(Constantes.FLEUR_HG, self.etatPlanteCG)
+                if self.etatPlanteCG == Constantes.TOUCHE:
+                    self.presentation.actualiserFenetreGraphique()
+                    time.sleep(1.5)
+                    self.listeChenilleG.remove(self.chenilleG)
+                    self.chenilleG = None
+                    self.etatPlanteCG = Constantes.NORMAL
+                    #Si la chenilleG a touché la planteG, elle mange la plante et le jeu continue
             else:
                 self.presentation.afficherAmi(ami, Constantes.NORMAL)
+
 
         if self.stanley.etat == Constantes.BAS and self.stanley.position == 2 and self.stanley.action == Constantes.SPRAY:
             if self.guepe != None and self.guepe.etat != Constantes.TERMINE:
                 self.score += 1
                 self.listeGuepe.remove(self.guepe)
                 self.guepe = None
+                #Si stanley respecte les conditions, il peut tuer la guepe
 
         self.presentation.afficherEchecs(self.echec)
         self.presentation.afficherScore(self.score)
@@ -134,9 +160,11 @@ class Jeu:
         print("Jeu :: araigneeD crée")
 
     def gererChenilleG(self):
-        self.listeChenilleG.append(ChenilleG(self.presentation))
+        self.chenilleG = ChenilleG(self.presentation)
+        self.listeChenilleG.append(self.chenilleG)
         print("Jeu :: chenilleG crée")
 
     def gererChenilleD(self):
-        self.listeChenilleD.append(ChenilleD(self.presentation))
+        self.chenilleD = ChenilleD(self.presentation)
+        self.listeChenilleD.append(self.chenilleD)
         print("Jeu :: chenilleD crée")
