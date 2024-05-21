@@ -24,10 +24,6 @@ class Jeu:
         self.listeAraigneeD = []
         self.constanteRetour = 0
         self.guepe = None
-        self.chenilleG = None
-        self.chenilleD = None
-        self.araigneeG = None
-        self.araigneeD = None
         self.echec = 0
         self.etatChat = Constantes.NORMAL
         self.etatPlanteCG = Constantes.NORMAL
@@ -89,12 +85,20 @@ class Jeu:
             '''if self.guepe.etat == Constantes.TERMINE:
                 self.echec += 1
                 self.etatChat = Constantes.TOUCHE'''
+            #Si la guepe pique le chat
 
-        if self.chenilleG != None:
-            self.chenilleG.actualiserEtat()
-            if self.chenilleG.etat == Constantes.TERMINE:
+        for ChenG in self.listeChenilleG:
+            ChenG.actualiserEtat()
+            if (self.stanley.position == 1 and self.stanley.action == Constantes.SPRAY) and (ChenG.position == 3 or ChenG.position == 2):
+                self.score += 1
+                self.listeChenilleG.remove(ChenG)
+            elif (self.stanley.position == 0 and self.stanley.action == Constantes.SPRAY) and (ChenG.position == 1 or ChenG.position == 0):
+                self.score += 1
+                self.listeChenilleG.remove(ChenG)
+            '''if ChenG.etat == Constantes.TERMINE:
                 self.echec += 1
-                self.etatPlanteCG = Constantes.TOUCHE
+                self.etatPlanteCG = Constantes.TOUCHE'''
+            #Si la chenilleG mange la planteG
 
         for ami in self.listeAmis:
             if ami == Constantes.CHAT:
@@ -112,8 +116,8 @@ class Jeu:
                 if self.etatPlanteCG == Constantes.TOUCHE:
                     self.presentation.actualiserFenetreGraphique()
                     time.sleep(1.5)
-                    self.listeChenilleG.remove(self.chenilleG)
-                    self.chenilleG = None
+                    self.listeChenilleG.clear()
+                    '''appeler clearListes()'''
                     self.etatPlanteCG = Constantes.NORMAL
                     #Si la chenilleG a touché la planteG, elle mange la plante et le jeu continue
             else:
@@ -168,3 +172,12 @@ class Jeu:
         self.chenilleD = ChenilleD(self.presentation)
         self.listeChenilleD.append(self.chenilleD)
         print("Jeu :: chenilleD crée")
+
+
+
+    def clearListes(self):
+        self.guepe.clear()
+        self.listeChenilleG.clear()
+        self.listeChenilleD.clear()
+        self.listeAraigneeG.clear()
+        self.listeAraigneeD.clear()
