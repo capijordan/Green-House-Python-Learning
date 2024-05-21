@@ -17,21 +17,27 @@ class Jeu:
         self.stanley = Stanley()             # attribut pour Stanley
         self.listeAmis = [Constantes.FLEUR_HG, Constantes.FLEUR_HD, Constantes.FLEUR_BG, Constantes.FLEUR_BD, Constantes.CHAT]
         self.moobs = Ennemis()
+        #Ennemi instancié
         self.listeChenilleG = []
         self.listeChenilleD = []
         self.listeAraigneeG = []
         self.listeAraigneeD = []
+        #Listes d'ennemis
         self.constanteRetour = 0
+        #Là ou'est retourné la constante de l'ennemi à générer
         self.guepe = None
+        #Présence de guêpe ou non
         self.echec = 0
         self.etatChat = Constantes.NORMAL
         self.etatPlanteCG = Constantes.NORMAL
         self.etatPlanteCD = Constantes.NORMAL
         self.etatPlanteAG = Constantes.NORMAL
         self.etatPlanteAD = Constantes.NORMAL
+        # Etat initial des amis
         self.score = 0
         self.ListeInsectiG = []
         self.ListeInsectiD = []
+        #Listes d'insecticides (Bonus)
 
         #...                                 # attributs pour les ennemis, le score, ...
 
@@ -40,7 +46,6 @@ class Jeu:
 
     def demarrer(self):
         while True:
-            # le code de gestion du déplacement des ennemis et des collisions va venir ici ...
 
             # le code de génération des ennemis va venir ici ...
             self.constanteRetour = self.moobs.actualiserEtat()
@@ -59,7 +64,7 @@ class Jeu:
 
             elif self.constanteRetour == Constantes.CHENILLE_D:
                 self.gererChenilleD()
-
+            #Types d'ennemis générés
 
             # récupérer l'événement du joueur et changer l'état de Stanley
             self.stanley.actualiserEtat(self.presentation.lireEvenement())
@@ -82,20 +87,21 @@ class Jeu:
         if self.stanley.etat == Constantes.BAS:
             if self.stanley.action == Constantes.SPRAY and self.stanley.position == 0:
                 self.ListeInsectiG.append(InsecticideG(self.presentation))
+        #Génération de l'insecticide Gauche
 
             elif self.stanley.action == Constantes.SPRAY and self.stanley.position == 3:
                 self.ListeInsectiD.append(InsecticideD(self.presentation))
-
+        # Génération de l'insecticide Droite
         for InscG in self.ListeInsectiG:
             InscG.actualiserEtat()
             if InscG.etat == Constantes.TERMINE:
                 self.ListeInsectiG.remove(InscG)
-
+        #Disparition des Insecticides Gauche une fois leurs trajet terminé
         for InscD in self.ListeInsectiD:
             InscD.actualiserEtat()
             if InscD.etat == Constantes.TERMINE:
                 self.ListeInsectiD.remove(InscD)
-
+        # Disparition des Insecticides Droite une fois leurs trajet terminé
         if self.guepe != None:
             self.guepe.actualiserEtat()
             if self.guepe.etat == Constantes.TERMINE:
@@ -118,6 +124,7 @@ class Jeu:
             elif (self.stanley.position == 0 and self.stanley.action == Constantes.SPRAY) and (ChenG.position == 1 or ChenG.position == 0):
                 self.score += 1
                 self.listeChenilleG.remove(ChenG)
+            #Si Stanley attaque 1 ou 2 Chenilles Gauche
             if ChenG.etat == Constantes.TERMINE:
                 self.echec += 1
                 self.etatPlanteCG = Constantes.TOUCHE
@@ -134,6 +141,7 @@ class Jeu:
             elif (self.stanley.position == 5 and self.stanley.action == Constantes.SPRAY) and (ChenD.position == 5 or ChenD.position == 6):
                 self.score += 1
                 self.listeChenilleD.remove(ChenD)
+            # Si Stanley attaque 1 ou 2 Chenilles Droite
             if ChenD.etat == Constantes.TERMINE:
                 self.echec += 1
                 self.etatPlanteCD = Constantes.TOUCHE
@@ -144,6 +152,7 @@ class Jeu:
             if (self.stanley.position == 0 and self.stanley.action == Constantes.SPRAY):
                 self.score += 1
                 self.listeAraigneeG.remove(GneeG)
+            #Si Stanley tue une arraignée Gauche
             if GneeG.etat == Constantes.TERMINE:
                 self.echec += 1
                 self.etatPlanteAG = Constantes.TOUCHE
@@ -154,6 +163,7 @@ class Jeu:
             if (self.stanley.position == 3 and self.stanley.action == Constantes.SPRAY):
                 self.score += 1
                 self.listeAraigneeD.remove(GneeD)
+            # Si Stanley tue une araignée Droite
             if GneeD.etat == Constantes.TERMINE:
                 self.echec += 1
                 self.etatPlanteAD = Constantes.TOUCHE
@@ -197,7 +207,7 @@ class Jeu:
                     time.sleep(1.5)
                     self.clearListes()
                     self.etatPlanteAG = Constantes.NORMAL
-                    #Si l'arraignéeG touche la planteBG, elle mange la plante et le jeu continue
+                    #Si l'arraignéeG touche la planteAG, elle mange la plante et le jeu continue
 
             elif ami == Constantes.FLEUR_BD:
                 self.presentation.afficherAmi(Constantes.FLEUR_BD, self.etatPlanteAD)
@@ -206,10 +216,10 @@ class Jeu:
                     time.sleep(1.5)
                     self.clearListes()
                     self.etatPlanteAD = Constantes.NORMAL
-                    #Si l'arraignéeD touche la planteBG, elle mange la plante et le jeu continue
+                    #Si l'arraignéeD touche la planteAD, elle mange la plante et le jeu continue
             else:
                 self.presentation.afficherAmi(ami, Constantes.NORMAL)
-
+            #Si les amis n'ont pas été touchés
 
 
 
@@ -221,6 +231,7 @@ class Jeu:
         if self.echec == 3:
             self.presentation.actualiserFenetreGraphique()
             self.presentation.attendreFermetureFenetre()
+        #Si 3 échecs, le jeu se stoppe, affiche le score et les échecs et attends la fermeture par la croix
 
 
 
@@ -231,33 +242,31 @@ class Jeu:
     def gererGuepe(self):
         if self.guepe == None:
             self.guepe = Guepe(self.presentation)
-
             print("Une guepe vient d'être générée")
         else:
             print("Il n'y a aucune guepe générée")
-
+    #Méthode qui décide de générer ou pas une guêpe
 
     def gererAraigneeG(self):
         self.listeAraigneeG.append(AraigneeG(self.presentation))
         print("Jeu :: araigneeG crée")
-
+    #Méthode qui génère une arraignée gauche à la liste
     def gererAraigneeD(self):
         self.listeAraigneeD.append(AraigneeD(self.presentation))
         print("Jeu :: araigneeD crée")
-
+    # Méthode qui génère une arraignée droite à la liste
     def gererChenilleG(self):
         self.listeChenilleG.append(ChenilleG(self.presentation))
         print("Jeu :: chenilleG crée")
-
+    # Méthode qui génère une Chenille gauche à la liste
     def gererChenilleD(self):
         self.listeChenilleD.append(ChenilleD(self.presentation))
         print("Jeu :: chenilleD crée")
-
-
-
+        # Méthode qui génère une Chenille droite à la liste
     def clearListes(self):
         self.listeChenilleG.clear()
         self.listeChenilleD.clear()
         self.listeAraigneeG.clear()
         self.listeAraigneeD.clear()
         self.guepe = None
+        ##Méthode qui vide les liste d'ennemis pour une réapparition gérable pour Stanley dans la partie

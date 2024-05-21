@@ -21,3 +21,5 @@ class InsecticideG:
 
         else:
             self.delai += 1
+
+    # Gère le changement d'état des objets de type Insecticide Gauche

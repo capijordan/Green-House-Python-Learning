@@ -28,7 +28,7 @@ class Guepe:
         else:
             self.presentation.afficherGuepe(self.position)
 
-
+#Gère le changement d'état des objets de type Guêpe
 
 
 

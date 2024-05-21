@@ -21,7 +21,7 @@ class Stanley:
                 elif self.position == 3:
                     self.action = Constantes.SPRAY
                     print("Stanley :: Spray Implémenté")
-
+            # Si utilisation du spray en bas
             if self.etat == Constantes.HAUT:
                 if self.position == 0:
                     self.action = Constantes.SPRAY
@@ -38,13 +38,13 @@ class Stanley:
                 elif self.position == 5:
                     self.action = Constantes.SPRAY
                     print("Stanley :: Spray Implémenté")
+                # Si utilisation du spray en haut
 
-
-                #Si la touche Espace à été tapée il utilise l'insecticide.
         else:
             if self.action == Constantes.SPRAY:
                 time.sleep(0.2)
                 self.action = Constantes.NORMAL
+                # Si utilisation du spray repasse a l'état normal pour stanley après l'animation
             if self.etat == Constantes.BAS:
                 if evenement == pygame.K_RIGHT:
                     if self.position < 3:
@@ -58,7 +58,7 @@ class Stanley:
                     if self.position == 1:
                         self.etat = Constantes.ECHELLE
                         print("Stanley :: Déplacement Implémenté")
-
+                # Si déplacement en bas
             elif self.etat == Constantes.ECHELLE:
                 if evenement == pygame.K_DOWN:
                     if self.position == 1:
@@ -76,7 +76,7 @@ class Stanley:
                         self.etat = Constantes.HAUT
                         self.position = 2
                         print("Stanley :: Déplacement Implémenté")
-
+                # Si déplacement au niveau de l'échelle
 
 
             elif self.etat == Constantes.HAUT:
@@ -95,3 +95,5 @@ class Stanley:
                     if self.position > 0:
                         self.position -= 1
                         print("Stanley :: Déplacement Implémenté")
+
+                # Si déplacement en haut

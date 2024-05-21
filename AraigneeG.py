@@ -25,3 +25,5 @@ class AraigneeG:
 
         else:
             self.presentation.afficherAraigneeG(self.position)
+
+            # Gère le changement d'état des objets de type Arraignée Gauche

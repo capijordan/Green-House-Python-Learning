@@ -25,3 +25,5 @@ class AraigneeD:
 
         else:
             self.presentation.afficherAraigneeD(self.position)
+
+            #Gère le changement d'état des objets de type Arraignée Droite

@@ -26,3 +26,5 @@ class ChenilleG:
 
         else:
             self.presentation.afficherChenilleG(self.position)
+
+            # Gère le changement d'état des objets de type Chenille Gauche

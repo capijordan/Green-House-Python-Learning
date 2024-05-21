@@ -48,3 +48,4 @@ class Ennemis:
                 return Constantes.ARAIGNEE_D
 
 
+#Gère le changement d'état des objets de type Ennemis ainsi que faire varier la difficulté (délais de génération variable)

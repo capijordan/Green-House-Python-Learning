@@ -25,3 +25,5 @@ class ChenilleD:
 
         else:
             self.presentation.afficherChenilleD(self.position)
+
+            # Gère le changement d'état des objets de type Chenille Droite
