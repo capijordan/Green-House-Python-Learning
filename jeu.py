@@ -124,13 +124,23 @@ class Jeu:
                 self.etatPlanteCD = Constantes.TOUCHE'''
             #Si la chenilleD mange la planteD
 
+            for GneeG in self.listeAraigneeG:
+                GneeG.actualiserEtat()
+                if (self.stanley.position == 0 and self.stanley.action == Constantes.SPRAY) and (GneeG.position >= 0 or GneeG.position <= 4):
+                    self.score += 1
+                    self.listeAraigneeG.remove(GneeG)
+                '''if GneeG.etat == Constantes.TERMINE:
+                    self.echec += 1
+                    self.etatPlanteBG = Constantes.TOUCHE'''
+                # Si l'arraignéeG mange la planteBG
+
         for ami in self.listeAmis:
             if ami == Constantes.CHAT:
                 self.presentation.afficherAmi(Constantes.CHAT, self.etatChat)
                 if self.etatChat == Constantes.TOUCHE:
                     self.presentation.actualiserFenetreGraphique()
                     time.sleep(1.5)
-                    self.listeGuepe.remove(self.guepe)
+                    '''appeler clearListes()'''
                     self.guepe = None
                     self.etatChat = Constantes.NORMAL
                     #Si la guepe a touché le chat, il pique et le jeu continue
