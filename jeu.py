@@ -22,6 +22,7 @@ class Jeu:
         self.guepe = None
         self.echec = 0
         self.etatChat = Constantes.NORMAL
+        self.score = 0
 
         #...                                 # attributs pour les ennemis, le score, ...
 
@@ -90,11 +91,22 @@ class Jeu:
             else:
                 self.presentation.afficherAmi(ami, Constantes.NORMAL)
 
-        if self.echec == 3:
-            self.presentation.attendreFermetureFenetre()
+        if self.stanley.etat == Constantes.BAS and self.stanley.position == 2 and self.stanley.action == Constantes.SPRAY:
+            if self.guepe != None and self.guepe.etat != Constantes.TERMINE:
+                self.score += 1
+                self.listeEnnemis.remove(self.guepe)
+                self.guepe = None
+
+        self.presentation.afficherEchecs(self.echec)
+        self.presentation.afficherScore(self.score)
 
         self.presentation.afficherStanley(self.stanley.etat, self.stanley.position,
                                           self.stanley.action)
+        if self.echec == 3:
+            self.presentation.actualiserFenetreGraphique()
+            self.presentation.attendreFermetureFenetre()
+
+
 
 
         self.presentation.actualiserFenetreGraphique()
