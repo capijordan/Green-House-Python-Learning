@@ -165,6 +165,15 @@ class Jeu:
                     self.etatPlanteCD = Constantes.NORMAL
                     #Si la chenilleD a touché la planteD, elle mange la plante et le jeu continue
 
+            elif ami == Constantes.FLEUR_BG:
+                self.presentation.afficherAmi(Constantes.FLEUR_BG, self.etatPlanteAG)
+                if self.etatPlanteAG == Constantes.TOUCHE:
+                    self.presentation.actualiserFenetreGraphique()
+                    time.sleep(1.5)
+                    self.listeAraigneeG.clear()
+                    '''appeler clearListes()'''
+                    self.etatPlanteAG = Constantes.NORMAL
+                    #Si l'arraignéeG' touche la planteBG, elle mange la plante et le jeu continue
 
             else:
                 self.presentation.afficherAmi(ami, Constantes.NORMAL)
