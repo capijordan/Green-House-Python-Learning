@@ -30,6 +30,8 @@ class Jeu:
         self.etatPlanteAG = Constantes.NORMAL
         self.etatPlanteAD = Constantes.NORMAL
         self.score = 0
+        self.ListeInsectiG = []
+        self.ListeInsectiD = []
 
         #...                                 # attributs pour les ennemis, le score, ...
 
@@ -77,13 +79,28 @@ class Jeu:
     def actualiserEcran(self):
         self.presentation.effacerImageInterne()
         #Afficher Les amis via une boucle qui voyage dans la liste et qui appelle afficheAmi à chaque tour de boucle
+        if self.stanley.etat == Constantes.BAS:
+            if self.stanley.action == Constantes.SPRAY and self.stanley.position == 0:
+                self.ListeInsectiG.append(InsecticideG(self.presentation))
 
+            elif self.stanley.action == Constantes.SPRAY and self.stanley.position == 3:
+                self.ListeInsectiD.append(InsecticideD(self.presentation))
+
+        for InscG in self.ListeInsectiG:
+            InscG.actualiserEtat()
+            if InscG.etat == Constantes.TERMINE:
+                self.ListeInsectiG.remove(InscG)
+
+        for InscD in self.ListeInsectiD:
+            InscD.actualiserEtat()
+            if InscD.etat == Constantes.TERMINE:
+                self.ListeInsectiD.remove(InscD)
 
         if self.guepe != None:
             self.guepe.actualiserEtat()
-            '''if self.guepe.etat == Constantes.TERMINE:
+            if self.guepe.etat == Constantes.TERMINE:
                 self.echec += 1
-                self.etatChat = Constantes.TOUCHE'''
+                self.etatChat = Constantes.TOUCHE
             #Si la guepe pique le chat
 
 
@@ -101,9 +118,9 @@ class Jeu:
             elif (self.stanley.position == 0 and self.stanley.action == Constantes.SPRAY) and (ChenG.position == 1 or ChenG.position == 0):
                 self.score += 1
                 self.listeChenilleG.remove(ChenG)
-            '''if ChenG.etat == Constantes.TERMINE:
+            if ChenG.etat == Constantes.TERMINE:
                 self.echec += 1
-                self.etatPlanteCG = Constantes.TOUCHE'''
+                self.etatPlanteCG = Constantes.TOUCHE
             #Si la chenilleG mange la planteG
 
         for ChenD in self.listeChenilleD:
@@ -117,9 +134,9 @@ class Jeu:
             elif (self.stanley.position == 5 and self.stanley.action == Constantes.SPRAY) and (ChenD.position == 5 or ChenD.position == 6):
                 self.score += 1
                 self.listeChenilleD.remove(ChenD)
-            '''if ChenD.etat == Constantes.TERMINE:
+            if ChenD.etat == Constantes.TERMINE:
                 self.echec += 1
-                self.etatPlanteCD = Constantes.TOUCHE'''
+                self.etatPlanteCD = Constantes.TOUCHE
             #Si la chenilleD mange la planteD
 
         for GneeG in self.listeAraigneeG:
@@ -127,20 +144,20 @@ class Jeu:
             if (self.stanley.position == 0 and self.stanley.action == Constantes.SPRAY):
                 self.score += 1
                 self.listeAraigneeG.remove(GneeG)
-            '''if GneeG.etat == Constantes.TERMINE:
+            if GneeG.etat == Constantes.TERMINE:
                 self.echec += 1
                 self.etatPlanteAG = Constantes.TOUCHE
-            # Si l'arraignéeG mange la planteBG'''
+            # Si l'arraignéeG mange la planteBG
 
         for GneeD in self.listeAraigneeD:
             GneeD.actualiserEtat()
             if (self.stanley.position == 3 and self.stanley.action == Constantes.SPRAY):
                 self.score += 1
                 self.listeAraigneeD.remove(GneeD)
-            '''if GneeD.etat == Constantes.TERMINE:
+            if GneeD.etat == Constantes.TERMINE:
                 self.echec += 1
                 self.etatPlanteAD = Constantes.TOUCHE
-            # Si l'arraignéeD mange la planteBD'''
+            # Si l'arraignéeD mange la planteBD
 
 
 

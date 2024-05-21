@@ -14,7 +14,6 @@ class Stanley:
             if self.etat == Constantes.BAS:
                 if self.position == 0:
                     self.action = Constantes.SPRAY
-
                     print("Stanley :: Spray Implémenté")
                 elif self.position == 2:
                     self.action = Constantes.SPRAY

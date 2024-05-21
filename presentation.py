@@ -1,7 +1,7 @@
 import pygame
 import time
 from constantes import *
-
+from InsecticideG import *
 
 class Presentation:
     def __init__(self):
