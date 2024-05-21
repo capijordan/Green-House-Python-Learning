@@ -6,7 +6,7 @@ from presentation import *
 
 class ChenilleG:
     def __init__(self,presentation):
-        pass
+        self.chenilleG = {}
 
     def actualiserEtat(self):
         pass

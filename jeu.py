@@ -17,7 +17,11 @@ class Jeu:
         self.stanley = Stanley()             # attribut pour Stanley
         self.listeAmis = [Constantes.FLEUR_HG, Constantes.FLEUR_HD, Constantes.FLEUR_BG, Constantes.FLEUR_BD, Constantes.CHAT]
         self.moobs = Ennemis()
-        self.listeEnnemis = []
+        self.listeGuepe = []
+        self.listeChenilleG = []
+        self.listeChenilleD = []
+        self.listeAraigneeG = []
+        self.listeAraigneeD = []
         self.constanteRetour = 0
         self.guepe = None
         self.echec = 0
@@ -85,7 +89,7 @@ class Jeu:
                 if self.etatChat == Constantes.TOUCHE:
                     self.presentation.actualiserFenetreGraphique()
                     time.sleep(1.5)
-                    self.listeEnnemis.remove(self.guepe)
+                    self.listeGuepe.remove(self.guepe)
                     self.guepe = None
                     self.etatChat = Constantes.NORMAL
             else:
@@ -94,7 +98,7 @@ class Jeu:
         if self.stanley.etat == Constantes.BAS and self.stanley.position == 2 and self.stanley.action == Constantes.SPRAY:
             if self.guepe != None and self.guepe.etat != Constantes.TERMINE:
                 self.score += 1
-                self.listeEnnemis.remove(self.guepe)
+                self.listeGuepe.remove(self.guepe)
                 self.guepe = None
 
         self.presentation.afficherEchecs(self.echec)
@@ -115,31 +119,24 @@ class Jeu:
     def gererGuepe(self):
         if self.guepe == None:
             self.guepe = Guepe(self.presentation)
-            self.listeEnnemis.append(self.guepe)
-            # print("Jeu :: Guêpe crée")
-            print(self.listeEnnemis)
-            #self.guepe = None
+            self.listeGuepe.append(self.guepe)
             print("Une guepe vient d'être générée")
         else:
             print("Il n'y a aucune guepe générée")
 
 
     def gererAraigneeG(self):
-        self.listeEnnemis.append(AraigneeG(self.presentation))
-        # print("Jeu :: araigneeG crée")
-        # print(self.listeEnnemis)
+        self.listeAraigneeG.append(AraigneeG(self.presentation))
+        print("Jeu :: araigneeG crée")
 
     def gererAraigneeD(self):
-        self.listeEnnemis.append(AraigneeD(self.presentation))
-        # print("Jeu :: araigneeD crée")
-        # print(self.listeEnnemis)
+        self.listeAraigneeD.append(AraigneeD(self.presentation))
+        print("Jeu :: araigneeD crée")
 
     def gererChenilleG(self):
-        self.listeEnnemis.append(ChenilleG(self.presentation))
-        # print("Jeu :: chenilleG crée")
-        # print(self.listeEnnemis)
+        self.listeChenilleG.append(ChenilleG(self.presentation))
+        print("Jeu :: chenilleG crée")
 
     def gererChenilleD(self):
-        self.listeEnnemis.append(ChenilleD(self.presentation))
-        # print("Jeu :: chenilleD crée")
-        # print(self.listeEnnemis)
+        self.listeChenilleD.append(ChenilleD(self.presentation))
+        print("Jeu :: chenilleD crée")
