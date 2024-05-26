@@ -83,7 +83,6 @@ class Jeu:
 
     def actualiserEcran(self):
         self.presentation.effacerImageInterne()
-        #Afficher Les amis via une boucle qui voyage dans la liste et qui appelle afficheAmi à chaque tour de boucle
         if self.stanley.etat == Constantes.BAS:
             if self.stanley.action == Constantes.SPRAY and self.stanley.position == 0:
                 self.ListeInsectiG.append(InsecticideG(self.presentation))
@@ -152,7 +151,7 @@ class Jeu:
             if (self.stanley.position == 0 and self.stanley.action == Constantes.SPRAY):
                 self.score += 1
                 self.listeAraigneeG.remove(GneeG)
-            #Si Stanley tue une arraignée Gauche
+            #Si Stanley utilise son spray sur une arraignée Gauche
             if GneeG.etat == Constantes.TERMINE:
                 self.echec += 1
                 self.etatPlanteAG = Constantes.TOUCHE
@@ -163,7 +162,7 @@ class Jeu:
             if (self.stanley.position == 3 and self.stanley.action == Constantes.SPRAY):
                 self.score += 1
                 self.listeAraigneeD.remove(GneeD)
-            # Si Stanley tue une araignée Droite
+            # Si Stanley utilise son spray sur une araignée Droite
             if GneeD.etat == Constantes.TERMINE:
                 self.echec += 1
                 self.etatPlanteAD = Constantes.TOUCHE
